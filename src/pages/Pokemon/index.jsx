@@ -31,7 +31,7 @@ const Pokemon = () => {
 
   return (
     <div
-      className="flex items-center justify-center bg-cover bg-center"
+      className="flex items-center justify-center bg-cover bg-center "
       style={{
         backgroundImage: `url('/assets/fondo-pokemon.jpg')`,
         minHeight: '100vh',
@@ -54,40 +54,50 @@ const Pokemon = () => {
           </div>
           <ul className="list-disc pl-5">
             <li className="text-lg mb-1">
-              <strong>Height:</strong> {getValueOrDefault(data?.height)}
+              <strong>Alto:</strong> {getValueOrDefault(data?.height)}
+              {data?.height ? ' cm' : ''}
             </li>
             <li className="text-lg mb-1">
-              <strong>Weight:</strong> {getValueOrDefault(data?.weight)}
+              <strong>Peso:</strong> {getValueOrDefault(data?.weight)} lib
             </li>
             <li className="text-lg mb-1">
-              <strong>Base Experience:</strong>{' '}
+              <strong>Experiencia Base:</strong>{' '}
               {getValueOrDefault(data?.base_experience)}
             </li>
             <li className="text-lg mb-1">
-              <strong>Types:</strong>{' '}
+              <strong>Tipos:</strong>{' '}
               {getValueOrDefault(data?.types?.join(' - '))}
             </li>
-            <li className="text-lg mb-1">
-              <strong>Moves:</strong>
-              <ul className="list-disc pl-5">
-                {(data?.moves || []).slice(0, 4).map((move, index) => (
-                  <li key={index} className="text-lg">
-                    {move}
-                  </li>
-                ))}
-              </ul>
-            </li>
-            <li className="text-lg mb-1">
-              <strong>Stats:</strong>
-              <ul className="list-disc pl-5">
-                {(data?.stats || []).map((stat) => (
-                  <li key={stat?.stat?.name} className="text-lg">
-                    {getValueOrDefault(stat?.stat?.name)}:{' '}
-                    {getValueOrDefault(stat?.base_stat)}
-                  </li>
-                ))}
-              </ul>
-            </li>
+
+            {data?.moves.length > 0 ? (
+              <li className="text-lg mb-1">
+                <strong>Ataques:</strong>
+                <ul className="list-disc pl-5">
+                  {(data?.moves || []).slice(0, 4).map((move, index) => (
+                    <li key={index} className="text-lg">
+                      {move}
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ) : (
+              <></>
+            )}
+            {data?.stats.length > 0 ? (
+              <li className="text-lg mb-1">
+                <strong>Estadisticas Base:</strong>
+                <ul className="list-disc pl-5">
+                  {(data?.stats || []).map((stat) => (
+                    <li key={stat?.stat?.name} className="text-lg">
+                      {getValueOrDefault(stat?.stat?.name)}:{' '}
+                      {getValueOrDefault(stat?.base_stat)}
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ) : (
+              <></>
+            )}
           </ul>
         </div>
       </div>

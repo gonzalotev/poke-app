@@ -1,17 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchPokemons } from '@/services/poke-api';
 import { Card, Pagination, Toast, Loading } from '@/components';
 
 const Home = () => {
-  const [currentPage, setCurrentPage] = useState(1);
   const countItems = process.env.REACT_APP_API_ITEMS_PER_PAGE;
+
+  const [currentPage, setCurrentPage] = useState(() => {
+    const savedPage = sessionStorage.getItem('currentPage');
+    return savedPage ? parseInt(savedPage, 10) : 1;
+  });
+
   const offset = (currentPage - 1) * countItems;
 
   const { data, error, isLoading } = useQuery({
     queryKey: ['pokemons', currentPage],
     queryFn: () => fetchPokemons(offset, countItems),
   });
+
+  useEffect(() => {
+    sessionStorage.setItem('currentPage', currentPage);
+  }, [currentPage]);
 
   if (isLoading) return <Loading />;
   if (error) Toast('error', 'Hubo un error al cargar el Pokémon.');

@@ -9,17 +9,17 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         disabled={currentPage === 1}
         className="mr-4 p-3 bg-blue-500 text-white rounded hover:bg-blue-700 disabled:opacity-50"
       >
-        Previous
+        Anterior
       </button>
       <span className="text-white text-lg font-semibold">
-        Page {currentPage} of {totalPages}
+        Pagina {currentPage} de {totalPages}
       </span>
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
         className="ml-4 p-3 bg-blue-500 text-white rounded hover:bg-blue-700 disabled:opacity-50"
       >
-        Next
+        Siguiente
       </button>
     </div>
   );

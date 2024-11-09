@@ -74,25 +74,56 @@ export const fetchPokemons = async (offset = 0, limit = 20) => {
 };
 
 export const fetchPokemon = async (name) => {
-  const response = await getPokemon(`pokemon/${name}`);
-  return {
-    name: response.name,
-    order: response.order,
-    weight: response.weight,
-    image: response.sprites.other.showdown.front_default,
-    types: response.types.map((typeInfo) => typeInfo.type.name),
-    height: response.height,
-    moves: response.moves.map((move) => move.move.name),
-    base_experience: response.base_experience,
-    stats: response.stats.map((stat) => ({
-      base_stat: stat.base_stat,
-      effort: stat.effort,
-      stat: {
-        name: stat.stat.name,
-        url: stat.stat.url,
-      },
-    })),
-  };
+  try {
+    // Intentar obtener el Pokémon desde la API principal
+    const response = await getPokemon(`pokemon/${name}`);
+
+    return {
+      name: response.name,
+      order: response.order,
+      weight: response.weight,
+      image: response.sprites.other.showdown.front_default,
+      types: response.types.map((typeInfo) => typeInfo.type.name),
+      height: response.height,
+      moves: response.moves.map((move) => move.move.name),
+      base_experience: response.base_experience,
+      stats: response.stats.map((stat) => ({
+        base_stat: stat.base_stat,
+        effort: stat.effort,
+        stat: {
+          name: stat.stat.name,
+          url: stat.stat.url,
+        },
+      })),
+    };
+  } catch (error) {
+    console.warn('Error al obtener el Pokémon de la API principal:', error);
+
+    try {
+      const secondaryResponse = await getPokemonSecondary(
+        `pokemon?equipo=2&name=${name}`
+      );
+      const pokemon = secondaryResponse[0];
+
+      return {
+        name: pokemon.name,
+        order: pokemon.order,
+        weight: pokemon.weight,
+        image: pokemon.image,
+        types: pokemon.types,
+        height: pokemon.height,
+        moves: pokemon.moves || [],
+        base_experience: pokemon.base_experience,
+        stats: pokemon.stats || [],
+      };
+    } catch (secondaryError) {
+      console.error(
+        'Error al obtener el Pokémon de la API secundaria:',
+        secondaryError
+      );
+      return null;
+    }
+  }
 };
 
 export const createData = async (data) => {

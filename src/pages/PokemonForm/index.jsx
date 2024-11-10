@@ -4,8 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { PokemonContext } from '@/context/PokemonContext';
 import { createData } from '@/services/poke-api';
 import { Input, Toast } from '@/components';
+import { useTheme } from '@/context/ThemeContext';
 
 const PokemonForm = () => {
+  const { isDarkMode } = useTheme();
   const { types } = useContext(PokemonContext);
   const navigate = useNavigate();
   const methods = useForm();
@@ -34,7 +36,9 @@ const PokemonForm = () => {
       <div
         className="flex items-center justify-center bg-cover bg-center"
         style={{
-          backgroundImage: `url('/assets/fondo-pokemon.jpg')`,
+          backgroundImage: isDarkMode
+            ? "url('/assets/bosque-noche.png')"
+            : "url('/assets/fondo-pokemon.jpg')",
           minHeight: '100vh',
         }}
       >
@@ -91,7 +95,7 @@ const PokemonForm = () => {
 
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white font-bold py-3 px-4 rounded hover:bg-blue-600 transition duration-300"
+            className={`w-full ${isDarkMode ? 'bg-white hover:bg-gray-100 text-gray-800' : 'bg-gray-800 hover:bg-gray-700 text-white'} font-bold py-3 px-4 rounded shadow transition duration-300`}
           >
             Crear Pokémon
           </button>

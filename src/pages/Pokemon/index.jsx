@@ -3,8 +3,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { fetchPokemon } from '@/services/poke-api';
 import { Toast, Loading } from '@/components';
+import { useTheme } from '@/context/ThemeContext';
 
 const Pokemon = () => {
+  const { isDarkMode } = useTheme();
   const { name } = useParams();
   const navigate = useNavigate();
 
@@ -33,7 +35,9 @@ const Pokemon = () => {
     <div
       className="flex items-center justify-center bg-cover bg-center "
       style={{
-        backgroundImage: `url('/assets/fondo-pokemon.jpg')`,
+        backgroundImage: isDarkMode
+          ? "url('/assets/bosque-noche.png')"
+          : "url('/assets/fondo-pokemon.jpg')",
         minHeight: '100vh',
       }}
     >
@@ -41,7 +45,7 @@ const Pokemon = () => {
         <img
           src={getValueOrDefault(data?.image)}
           alt={getValueOrDefault(data?.name)}
-          className="w-full sm:w-96 lg:w-[400px] h-auto object-contain rounded-lg shadow-md mb-6 lg:mb-0 lg:mr-8" // Se ajusta el tamaño y márgenes
+          className="w-full sm:w-96 lg:w-[400px] h-auto object-contain rounded-lg shadow-md mb-6 lg:mb-0 lg:mr-8"
         />
         <div className="bg-white bg-opacity-70 border border-gray-300 rounded-lg shadow-lg p-4 w-full sm:max-w-md lg:max-w-lg">
           <div className="flex items-center justify-center mb-4">

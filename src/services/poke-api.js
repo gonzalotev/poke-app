@@ -75,7 +75,6 @@ export const fetchPokemons = async (offset = 0, limit = 20) => {
 
 export const fetchPokemon = async (name) => {
   try {
-    // Intentar obtener el Pokémon desde la API principal
     const response = await getPokemon(`pokemon/${name}`);
 
     return {

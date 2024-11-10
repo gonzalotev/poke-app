@@ -14,14 +14,18 @@ const Card = ({ pokemon }) => {
     >
       <div
         className={
-          'bg-transparent border-2 border-gray-700 mb-2 rounded-lg p-2 flex justify-between items-center  text-white'
+          'bg-transparent border-2 border-gray-700 mb-2 rounded-lg p-2 flex justify-between items-center text-white'
         }
       >
-        <span className="text-xl font-semibold uppercase">{pokemon.name}</span>
+        <span className="text-sm sm:text-base md:text-xl font-semibold uppercase truncate">
+          {pokemon.name}
+        </span>
         {pokemon.stats.length > 0 ? (
-          <span className="text-xl font-semibold">{`HP ${getStat(pokemon.stats, 'hp')}`}</span>
+          <span className="text-sm sm:text-base md:text-xl font-semibold truncate">{`HP ${getStat(pokemon.stats, 'hp')}`}</span>
         ) : (
-          <span className="text-xl font-semibold">HP ?</span>
+          <span className="text-sm sm:text-base md:text-xl font-semibold truncate">
+            HP ?
+          </span>
         )}
       </div>
 

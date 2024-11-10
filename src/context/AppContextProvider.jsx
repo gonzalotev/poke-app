@@ -1,9 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { PokemonProvider } from './PokemonContext';
+import { ThemeProvider } from './ThemeContext';
 
 const AppContextProvider = ({ children }) => {
-  return <PokemonProvider>{children}</PokemonProvider>;
+  return (
+    <ThemeProvider>
+      <PokemonProvider>{children}</PokemonProvider>
+    </ThemeProvider>
+  );
 };
 
 AppContextProvider.propTypes = {

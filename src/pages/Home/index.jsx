@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchPokemons } from '@/services/poke-api';
 import { Card, Pagination, Toast, Loading } from '@/components';
+import { useTheme } from '@/context/ThemeContext';
 
 const Home = () => {
+  const { isDarkMode } = useTheme();
   const countItems = process.env.REACT_APP_API_ITEMS_PER_PAGE;
 
   const [currentPage, setCurrentPage] = useState(() => {
@@ -29,9 +31,11 @@ const Home = () => {
 
   return (
     <div
-      className="flex flex-col items-center"
+      className="flex flex-col items-center min-h-screen"
       style={{
-        backgroundImage: "url('/assets/pokeballs-black.jpg')",
+        backgroundImage: isDarkMode
+          ? "url('/assets/pokeballs-black.jpg')"
+          : "url('/assets/pokeballs.jpg')",
         backgroundRepeat: 'repeat',
         backgroundSize: 'auto',
         backgroundPosition: 'top left',

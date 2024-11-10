@@ -1,10 +1,22 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-//import { usePokemon } from '@/context/PokemonContext';
+import { useNavigate } from 'react-router-dom';
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  //const { types, selectedType, setSelectedType } = usePokemon();
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      navigate(`/${searchQuery}`);
+    }
+  };
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
   return (
     <nav className="bg-gray-800 p-4">
@@ -14,25 +26,19 @@ function Navbar() {
         </Link>
 
         <ul className="hidden lg:flex items-center space-x-4 text-white">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Search..."
+            className="text-black"
+          />
+          <button onClick={handleSearch}>Buscar</button>
+
           <li>
             <Link to="/crear">Crear Pokémon</Link>
           </li>
-
-          {/* Filtro de tipos  TODO
-          <li>
-            <select
-              value={selectedType}
-              onChange={(e) => setSelectedType(e.target.value)}
-              className="p-2 border border-gray-300 rounded-md"
-            >
-              <option value="">Todos los tipos</option>
-              {types.map((type) => (
-                <option key={type} value={type}>
-                  {type}
-                </option>
-              ))}
-            </select>
-          </li> */}
         </ul>
 
         <button
